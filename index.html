@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine?</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    background-color: #00b894;
+    overflow: hidden;
+  }
+
+  /* floating hearts */
+  .heart {
+    position: absolute;
+    font-size: 24px;
+    color: #ff4757;
+    animation: float 5s linear infinite;
+  }
+
+  @keyframes float {
+    0% {transform: translateY(100vh) rotate(0deg);}
+    100% {transform: translateY(-10vh) rotate(360deg);}
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #d63031;
+  }
+
+  button {
+    padding: 12px 30px;
+    margin: 10px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+  }
+
+  .valentine {
+    background-color: #e84393;
+    color: white;
+  }
+
+  .yes {
+    background-color: #00cec9;
+    color: white;
+  }
+
+  .no {
+    background-color: #fd79a8;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="content">
+  <h1>Can you be my valentine?</h1>
+  <button class="valentine" onclick="nextPage()">Valentine?</button>
+</div>
+
+<script>
+let noClicks = 0;
+
+// generate floating hearts
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.innerText = '❤️';
+  heart.style.left = Math.random() * window.innerWidth + 'px';
+  heart.style.fontSize = (20 + Math.random()*20) + 'px';
+  document.body.appendChild(heart);
+  setTimeout(()=> heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+
+// first click
+function nextPage() {
+  document.getElementById("content").innerHTML = `
+    <h1>
+    Given that distance ≠ love<br>
+    And my feelings → ∞<br><br>
+    Will you be my Valentine?
+    </h1>
+    <button class="yes" onclick="yesClicked()">Yes</button>
+    <button class="no" id="noBtn">No</button>
+  `;
+  const noBtn = document.getElementById('noBtn');
+  // make the No button move when mouse hovers
+  noBtn.addEventListener('mouseenter', moveNoButton);
+}
+
+function moveNoButton() {
+  const noBtn = document.getElementById('noBtn');
+  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+  noBtn.style.position = 'absolute';
+  noBtn.style.left = x + 'px';
+  noBtn.style.top = y + 'px';
+}
+
+function noClicked() {
+  noClicks++;
+  if(noClicks === 1) {
+    document.getElementById("content").innerHTML = `
+      <h1>Try again 😌</h1>
+      <button class="yes" onclick="yesClicked()">Yes</button>
+      <button class="no" id="noBtn">No</button>
+    `;
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseenter', moveNoButton);
+  } else {
+    document.getElementById("content").innerHTML = `
+      <h1>You are dumb 😏</h1>
+      <button class="yes" onclick="yesClicked()">Yes</button>
+      <button class="no" id="noBtn">No</button>
+    `;
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseenter', moveNoButton);
+  }
+}
+
+function yesClicked() {
+  document.getElementById("content").innerHTML = `
+    <h1>I love you baby..Buy me Kinderjoy 😌 ❤️</h1>
+  `;
+}
+</script>
+
+</body>
+</html>
